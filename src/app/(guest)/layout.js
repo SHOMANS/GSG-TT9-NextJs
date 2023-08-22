@@ -1,16 +1,14 @@
+'use client';
 import Link from 'next/link';
 import '@/style/globals.css';
-
-export const metadata = {
-  title: 'Guest',
-};
+import { useThemeContext } from '@/contexts/themeContext';
 
 export default function RootLayout({ children }) {
+  const { toggleTheme } = useThemeContext();
   return (
     <>
       <header>
         <h2>Guest layout</h2>
-        <h3>{metadata.title}</h3>
         <nav>
           <ul>
             <li>
@@ -24,6 +22,7 @@ export default function RootLayout({ children }) {
             </li>
           </ul>
         </nav>
+        <button onClick={toggleTheme}>Toggle</button>
       </header>
       <div style={{ margin: '0 auto', width: '90%', padding: 20 }}>
         {children}
