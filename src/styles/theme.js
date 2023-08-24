@@ -1,16 +1,20 @@
+const lightColors = {
+  primary: '#0070f3',
+  secondary: '#ff0000',
+  background: '#ffffff',
+  paper: '#f5f5f5',
+};
+
+const fontsSizes = {
+  small: '1.2rem',
+  medium: '1.6rem',
+  large: '2.4rem',
+  xlarge: '3.2rem',
+};
+
 export const theme = {
-  colors: {
-    primary: '#0070f3',
-    secondary: '#ff0000',
-    background: '#ffffff',
-    paper: '#f5f5f5',
-  },
-  fontsSizes: {
-    small: '1.2rem',
-    medium: '1.6rem',
-    large: '2.4rem',
-    xlarge: '3.2rem',
-  },
+  colors: lightColors,
+  fontsSizes,
   fonts: {
     primary: 'Roboto, sans-serif',
   },
@@ -24,7 +28,8 @@ export const theme = {
 export const darkTheme = {
   ...theme,
   colors: {
-    ...theme.colors,
+    primary: 'rgba(170,120,120)',
+    secondary: '#ff0000',
     background: '#000000',
     paper: '#121212',
   },
