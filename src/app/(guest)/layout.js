@@ -1,6 +1,5 @@
 'use client';
 import Link from 'next/link';
-import '@/style/globals.css';
 import { useThemeContext } from '@/contexts/themeContext';
 
 export default function RootLayout({ children }) {
@@ -22,7 +21,7 @@ export default function RootLayout({ children }) {
             </li>
           </ul>
         </nav>
-        <button onClick={toggleTheme}>Toggle</button>
+        <button onClick={toggleTheme}>Toggle theme</button>
       </header>
       <div style={{ margin: '0 auto', width: '90%', padding: 20 }}>
         {children}
