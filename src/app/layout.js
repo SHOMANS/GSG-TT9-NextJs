@@ -5,6 +5,8 @@ import { ThemeProvider } from 'styled-components';
 import { Inter } from 'next/font/google';
 import { darkTheme, theme } from '@/styles/theme';
 import GlobalStyle from '@/styles/global';
+import { Provider } from 'react-redux';
+import store from '@/redux/store';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,27 +24,29 @@ export default function RootLayout({ children }) {
   return (
     <html lang='en'>
       <body className={inter.className}>
-        <ContextThemeProvider
-        // myCB={myCB}
-        // children={(myTheme) => (
-        //   <ThemeProvider theme={myTheme === 'light' ? theme : darkTheme}>
-        //     <h1>hello from root</h1>
-        //     <div style={{ margin: '0 auto', width: '90%', padding: 20 }}>
-        //       {children}
-        //     </div>
-        //   </ThemeProvider>
-        // )}
-        >
-          {(myTheme) => (
-            <ThemeProvider theme={myTheme === 'light' ? theme : darkTheme}>
-              <GlobalStyle />
-              <h1>hello from root</h1>
-              <div style={{ margin: '0 auto', width: '90%', padding: 20 }}>
-                {children}
-              </div>
-            </ThemeProvider>
-          )}
-        </ContextThemeProvider>
+        <Provider store={store}>
+          <ContextThemeProvider
+          // myCB={myCB}
+          // children={(myTheme) => (
+          //   <ThemeProvider theme={myTheme === 'light' ? theme : darkTheme}>
+          //     <h1>hello from root</h1>
+          //     <div style={{ margin: '0 auto', width: '90%', padding: 20 }}>
+          //       {children}
+          //     </div>
+          //   </ThemeProvider>
+          // )}
+          >
+            {(myTheme) => (
+              <ThemeProvider theme={myTheme === 'light' ? theme : darkTheme}>
+                <GlobalStyle />
+                <h1>hello from root</h1>
+                <div style={{ margin: '0 auto', width: '90%', padding: 20 }}>
+                  {children}
+                </div>
+              </ThemeProvider>
+            )}
+          </ContextThemeProvider>
+        </Provider>
       </body>
     </html>
   );
