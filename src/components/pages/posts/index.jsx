@@ -1,7 +1,13 @@
 'use client';
-import { deletePost, editPost as editPostAction } from '@/redux/slices/posts';
+import {
+  addPostAction,
+  deletePostAction,
+  editPostAction,
+  getPosts,
+} from '@/redux/slices/posts';
+import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
@@ -9,22 +15,67 @@ const PostsPage = () => {
   const router = useRouter();
   const theme = useTheme();
 
-  const [editPost, setEditPost] = useState('');
   const [postData, setPostData] = useState({});
 
   const { posts } = useSelector((state) => state.posts);
   const dispatch = useDispatch();
 
-  const handleEditPost = () => {
+  const handleEditPost = (e) => {
+    e.preventDefault();
     dispatch(editPostAction(postData));
-    setEditPost('');
     setPostData(null);
   };
 
+  useEffect(() => {
+    if (!posts.length) {
+      dispatch(getPosts());
+    }
+  }, []);
+
+  const handleCreatePost = (e) => {
+    e.preventDefault();
+    dispatch(addPostAction(postData));
+    setPostData({
+      title: '',
+      body: '',
+    });
+  };
+
+  // child(parent());
+
+  // child = () => {
+  //   return parent() => {
+  //   }
+  // }
+
+  const handleDeletePost = (id) => dispatch(deletePostAction(id));
   return (
     <div>
+      {postData?.id ? (
+        <></>
+      ) : (
+        <form onSubmit={handleCreatePost}>
+          <input
+            type='text'
+            value={postData?.title}
+            onChange={(e) =>
+              setPostData({ ...postData, [e.target.name]: e.target.value })
+            }
+            name='title'
+          />
+          <input
+            type='text'
+            value={postData?.body}
+            onChange={(e) => {
+              setPostData({ ...postData, [e.target.name]: e.target.value });
+            }}
+            name='body'
+          />
+          <button type='submit'>Save</button>
+        </form>
+      )}
       {posts.map((post) => {
-        if (post.id === editPost)
+        if (post.id === postData?.id)
           return (
             <form onSubmit={handleEditPost}>
               <input
@@ -64,7 +115,7 @@ const PostsPage = () => {
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                dispatch(deletePost(post.id));
+                handleDeletePost(post.id);
               }}
             >
               Delete Post
@@ -72,7 +123,6 @@ const PostsPage = () => {
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                setEditPost(post.id);
                 setPostData(post);
               }}
             >
